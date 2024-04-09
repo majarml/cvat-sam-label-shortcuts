@@ -2,8 +2,7 @@
 // @name         cvat-shortcuts
 // @description	 This script aims to enhance the experience of labelling using sam tracker in CVAT by adding shortcuts to the label class.
 // @namespace    https://github.com/majarml/cvat-sam-label-shortcuts
-// @version      0.1
-// @description  try to take over the world!
+// @version      0.1.1
 // @author       majar5c
 // @match        https://app.cvat.ai/tasks/*/jobs/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=tampermonkey.net
@@ -17,12 +16,12 @@ const labelList = [];
 (function() {
     'use strict';
     initLabelText();
-    const aiToolsTab = resolveElement("#root > section > main > section > main > section > aside.ant-layout-sider.ant-layout-sider-light.cvat-canvas-controls-sidebar > div > div:nth-child(8) > span > svg");
+    const aiToolsTab = resolveElement(".cvat-tools-control > svg");
 
     // Wait for the element to be added to the page
     aiToolsTab.then(element => {
         hoverElement(element);
-        const labelListDiv = resolveElement("body > div:nth-child(11) > div > div > div > div.rc-virtual-list > div > div > div");
+        const labelListDiv = resolveElement(".rc-virtual-list-holder-inner");
         labelListDiv.then(element => {
             for (const child of element.children) {
                 labelList.push(child.title);
@@ -78,7 +77,7 @@ function resolveElement(selector) {
 }
 
 function changeLabel(index) {
-    document.querySelector(`body > div:nth-child(11) > div > div > div > div.rc-virtual-list > div > div > div > div:nth-child(${index}) > div`).click();
+    document.querySelector(`.rc-virtual-list-holder-inner > div:nth-child(${index}) > div`).click();
     document.querySelector(`#rc-tabs-1-panel-interactors > div.ant-row.ant-row-end.ant-row-middle > div > button`).click();
     changeLabelText(`${index}: ${labelList[index-1]}`);
 }
@@ -126,7 +125,7 @@ function hoverElement(element) {
     });
 
     // Create a new MouseEvent for the mouseout event
-    const mouseoutEvent = new MouseEvent('mouseout', );
+    // const mouseoutEvent = new MouseEvent('mouseout', );
     element.dispatchEvent(mouseoverEvent);
     //element.dispatchEvent(mouseoutEvent);
 }
